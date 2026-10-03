@@ -1,0 +1,121 @@
+// ==UserScript==
+// @name         Custom YouTube - जय माँ शारदा
+// @namespace    https://tampermonkey.net/
+// @version      1.0
+// @description  Customize only YouTube video I2mSO1zzsfA
+// @match        https://www.youtube.com/watch?v=I2mSO1zzsfA
+// @match        https://www.youtube.com/watch?v=I2mSO1zzsfA&*
+// @grant        none
+// ==/UserScript==
+
+(function () {
+    'use strict';
+
+    const VIDEO_ID = 'I2mSO1zzsfA';
+
+    // Only run on the specified video
+    if (!location.href.includes(VIDEO_ID)) return;
+
+    function hideDistractions() {
+        const selectors = [
+            '#masthead',
+            '#guide',
+            '#secondary',
+            '#comments',
+            'ytd-comments',
+            'ytd-merch-shelf-renderer',
+            'ytd-watch-next-secondary-results-renderer',
+            'ytd-rich-grid-renderer',
+            'ytd-mini-guide-renderer',
+            'ytd-reel-shelf-renderer',
+            'ytd-video-description-infocards-section-renderer',
+            'ytd-engagement-panel-section-list-renderer',
+            '#related'
+        ];
+
+        selectors.forEach(selector => {
+            document.querySelectorAll(selector).forEach(el => {
+                el.style.display = 'none';
+            });
+        });
+    }
+
+    function stylePage() {
+        document.documentElement.style.background = '#000';
+        document.body.style.background = '#000';
+
+        const player = document.querySelector('#movie_player');
+
+        if (player) {
+            player.style.width = '100%';
+            player.style.maxWidth = '1200px';
+            player.style.margin = '0 auto';
+        }
+
+        const button = document.getElementById('maa-sharda-button');
+
+        if (button) {
+            button.style.cssText = `
+                display: block;
+                width: min(90%, 500px);
+                height: 60px;
+                margin: 20px auto;
+                border: none;
+                border-radius: 14px;
+                background: #ff0033;
+                color: white;
+                font-size: 20px;
+                font-weight: 700;
+                cursor: pointer;
+                box-shadow: 0 4px 15px rgba(0,0,0,.4);
+            `;
+        }
+    }
+
+    function createButton() {
+        if (document.getElementById('maa-sharda-button')) return;
+
+        const button = document.createElement('button');
+
+        button.id = 'maa-sharda-button';
+        button.textContent = '🙏🏻 जय माँ शारदा 🙏🏻';
+
+        button.addEventListener('click', function () {
+            /*
+             * YouTube does not expose Like/Subscribe/Hype as
+             * commands that a normal userscript can safely execute
+             * directly from an external custom button.
+             *
+             * This is where the custom action can be connected
+             * to YouTube's visible controls if you decide to
+             * automate the UI interaction.
+             */
+            alert('Please use the YouTube Like, Subscribe and Hype controls.');
+        });
+
+        const playerContainer =
+            document.querySelector('#player') ||
+            document.querySelector('#movie_player');
+
+        if (playerContainer) {
+            playerContainer.parentElement.appendChild(button);
+        }
+    }
+
+    function run() {
+        hideDistractions();
+        createButton();
+        stylePage();
+    }
+
+    // YouTube is a SPA, so repeatedly check after navigation.
+    setInterval(run, 1000);
+
+    // Also react to YouTube's internal navigation.
+    document.addEventListener('yt-navigate-finish', function () {
+        setTimeout(run, 500);
+    });
+
+    run();
+
+})();

@@ -13,10 +13,9 @@
 
 html, body {
     margin: 0;
-    width: 100%;
     min-height: 100%;
-    font-family: Arial, sans-serif;
     background: #0f0f0f;
+    font-family: Arial, sans-serif;
 }
 
 #app {
@@ -53,7 +52,7 @@ html, body {
     border: 0;
     border-radius: 12px;
     background: #ff0033;
-    color: #fff;
+    color: white;
     font-size: 18px;
     font-weight: 700;
     cursor: pointer;
@@ -89,6 +88,7 @@ html, body {
 <body>
 
 <div id="app">
+
     <main class="wrap">
 
         <iframe
@@ -100,53 +100,47 @@ html, body {
         </iframe>
 
         <div class="actions">
+
             <button
                 class="subscribe"
                 type="button"
                 onclick="subscribeChannel()">
                 🙏🏻 जय माँ शारदा 🙏🏻
             </button>
+
         </div>
 
     </main>
+
 </div>
 
-<script src="https://apis.google.com/js/platform.js"></script>
-
 <script>
+
 function subscribeChannel() {
 
     const button = document.querySelector(".subscribe");
 
     if (button) {
         button.disabled = true;
-        button.textContent = "🙏🏻 जय माँ शारदा 🙏🏻";
+        button.textContent = "Opening YouTube…";
     }
 
-    const container = document.createElement("div");
-
-    container.className = "g-ytsubscribe";
-
-    container.setAttribute(
-        "data-channel",
-        "https://www.youtube.com/@Jblflix"
+    window.open(
+        "https://www.youtube.com/@Jblflix?sub_confirmation=1",
+        "_blank",
+        "noopener,noreferrer"
     );
 
-    container.setAttribute("data-layout", "default");
-    container.setAttribute("data-count", "hidden");
+    setTimeout(function () {
 
-    container.style.position = "fixed";
-    container.style.left = "50%";
-    container.style.top = "50%";
-    container.style.transform = "translate(-50%, -50%)";
-    container.style.zIndex = "999999";
+        if (button) {
+            button.disabled = false;
+            button.textContent = "🙏🏻 जय माँ शारदा 🙏🏻";
+        }
 
-    document.body.appendChild(container);
-
-    if (window.gapi && gapi.ytsubscribe) {
-        gapi.ytsubscribe.go();
-    }
+    }, 1500);
 }
+
 </script>
 
 </body>

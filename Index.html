@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+<title>जय माँ शारदा</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    width: 100%;
+    min-height: 100%;
+    font-family: Arial, sans-serif;
+    background: #0f0f0f;
+}
+
+#app {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+}
+
+.wrap {
+    width: min(100%, 900px);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.video {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: 0;
+    border-radius: 10px;
+    background: #000;
+}
+
+.actions {
+    width: 100%;
+}
+
+.subscribe {
+    width: 100%;
+    min-height: 56px;
+    border: 0;
+    border-radius: 12px;
+    background: #ff0033;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.subscribe:active {
+    transform: scale(.98);
+}
+
+.subscribe:disabled {
+    opacity: .7;
+}
+
+@media (max-width: 520px) {
+    #app {
+        padding: 8px;
+        align-items: flex-start;
+        padding-top: 10px;
+    }
+
+    .wrap {
+        gap: 10px;
+    }
+
+    .subscribe {
+        min-height: 52px;
+        font-size: 16px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div id="app">
+    <main class="wrap">
+
+        <iframe
+            class="video"
+            src="https://www.youtube.com/embed/I2mSO1zzsfA?rel=0"
+            title="YouTube video"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen>
+        </iframe>
+
+        <div class="actions">
+            <button
+                class="subscribe"
+                type="button"
+                onclick="subscribeChannel()">
+                🙏🏻 जय माँ शारदा 🙏🏻
+            </button>
+        </div>
+
+    </main>
+</div>
+
+<script src="https://apis.google.com/js/platform.js"></script>
+
+<script>
+function subscribeChannel() {
+
+    const button = document.querySelector(".subscribe");
+
+    if (button) {
+        button.disabled = true;
+        button.textContent = "🙏🏻 जय माँ शारदा 🙏🏻";
+    }
+
+    const container = document.createElement("div");
+
+    container.className = "g-ytsubscribe";
+
+    container.setAttribute(
+        "data-channel",
+        "https://www.youtube.com/@Jblflix"
+    );
+
+    container.setAttribute("data-layout", "default");
+    container.setAttribute("data-count", "hidden");
+
+    container.style.position = "fixed";
+    container.style.left = "50%";
+    container.style.top = "50%";
+    container.style.transform = "translate(-50%, -50%)";
+    container.style.zIndex = "999999";
+
+    document.body.appendChild(container);
+
+    if (window.gapi && gapi.ytsubscribe) {
+        gapi.ytsubscribe.go();
+    }
+}
+</script>
+
+</body>
+</html>
